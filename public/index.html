@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Home Page</title>
+</head>
+<body>
+  <div id="playerContainer">
+    <div class="container-fluid d-flex w-100" style="justify-content: center; align-items: center; height: 100vh;">
+
+          <div class="card mx-5" style="width: 18rem;" onclick="setPlayer(1)" >
+              <img src="https://th.bing.com/th/id/OIP.MGEDVq_6XbGN4xVxI1BvdwHaHa?w=175&h=180&c=7&r=0&o=5&pid=1.7" height="270vh" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p class="card-text"><h1><center> Single Player </center></h1></p>
+              </div>
+            </div>
+  
+            <div class="card mx-5" style="width: 18rem;" onclick="setPlayer(2)">
+              <img src="https://static.vecteezy.com/system/resources/previews/002/094/498/non_2x/soccer-football-player-black-icons-illustrations-vector.jpg" height="270vh" class="card-img-top" alt="...">
+              <div class="card-body">
+                <p class="card-text"><h1><center> Multi Player </center></h1></p>
+              </div>
+            </div>
+          </div>
+      </div>
+    
+      <div id="selectionContainer">
+        <div class="container-fluid d-flex w-100" style="justify-content: center; align-items: center; height: 100vh;">
+    
+              <div class="card mx-5 mode" style="width: 18rem;" onclick="playerMode(1)" >
+                  <img src="https://th.bing.com/th/id/OIP.MGEDVq_6XbGN4xVxI1BvdwHaHa?w=175&h=180&c=7&r=0&o=5&pid=1.7" height="270vh" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text"><h1><center> Random </center></h1></p>
+                  </div>
+                </div>
+      
+                <div class="card mx-5 mode" style="width: 18rem;" onclick="playerMode(2)">
+                  <img src="https://static.vecteezy.com/system/resources/previews/002/094/498/non_2x/soccer-football-player-black-icons-illustrations-vector.jpg" height="270vh" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text"><h1><center> By Players </center></h1></p>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <div id="GameArea">
+            <div class="bollywood"> BollyWood </div>
+            <div id="movieWord"> </div>
+            <input type="text" name="" id="textInp">  
+          </div>
+    
+    <script>
+      const gamearea = document.getElementById('GameArea')
+      const bollywood = document.getElementsByClassName("bollywood")[0]
+      const movieWord = document.getElementById('movieWord')
+      const textArea = document.getElementById('textInp')
+
+      let player = 0
+      let mode = 1
+      const setPlayer = (player)=>{
+        player = player
+        if(player == 1){
+          singlePlayer()
+        }
+        document.getElementById('playerContainer').style.display = "none"
+        
+      }
+
+      const singlePlayer = ()=>{
+        document.querySelectorAll(".mode")[1].removeAttribute('onclick')
+        document.querySelectorAll(".mode")[1].addEventListener('click',()=>{
+          alert("You cannot select By Player in single player mode")
+        })
+        document.querySelectorAll(".mode")[1].style.backgroundColor = 'grey'
+        
+      }
+
+      const playerMode = (mode)=>{
+        if(mode == 1){
+          mode = 1
+        }
+        else if(mode == 2){
+          mode = 1
+        }
+        document.getElementById("selectionContainer").style.display = "none"
+        startGame(true)
+      }
+
+      const startGame = ()=>{
+
+      }
+
+      const getMovie = ()=>{
+        fetch('http://localhost:3000/getmovie')
+          .then((response) => response.json())
+          .then((json) => console.log(json))
+          .catch((error) => console.error('Error fetching JSON:', error));
+
+      }
+    </script>
+</body>
+</html>
