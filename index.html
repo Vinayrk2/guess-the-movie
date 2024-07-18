@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <title>Home Page</title>
 </head>
-<body>
+<body>  
   <div id="playerContainer">
-    <div class="container-fluid d-flex w-100" style="justify-content: center; align-items: center; height: 100vh;">
-
+    <div class="container-fluid w-100 p-2" style="display:flex; justify-content: center; align-items: center; height: 100vh;">
           <div class="card mx-5" style="width: 18rem;" onclick="setPlayer(1)" >
               <img src="https://th.bing.com/th/id/OIP.MGEDVq_6XbGN4xVxI1BvdwHaHa?w=175&h=180&c=7&r=0&o=5&pid=1.7" height="270vh" class="card-img-top" alt="...">
               <div class="card-body">
@@ -26,7 +26,7 @@
           </div>
       </div>
     
-      <div id="selectionContainer">
+      <div id="selectionContainer" style="display:flex; justify-content: center; align-items: center; height: 100vh;">
         <div class="container-fluid d-flex w-100" style="justify-content: center; align-items: center; height: 100vh;">
     
               <div class="card mx-5 mode" style="width: 18rem;" onclick="playerMode(1)" >
@@ -46,9 +46,11 @@
           </div>
 
           <div id="GameArea">
-            <div class="bollywood"> BollyWood </div>
-            <div id="movieWord"> </div>
-            <input type="text" name="" id="textInp">  
+            <div class="bollywood">BollyWood</div>
+            <div id="movieWord"></div>
+            <div id="inpContainer">
+              <input type="text" name="" id="textInp"  maxlength="1" onchange="checkInput(this.value)">  
+            </div>
           </div>
     
     <script>
@@ -56,9 +58,13 @@
       const bollywood = document.getElementsByClassName("bollywood")[0]
       const movieWord = document.getElementById('movieWord')
       const textArea = document.getElementById('textInp')
-
+      var currentMovie = ''
+      var tempMovie = ''
       let player = 0
       let mode = 1
+      var movies;
+      var movieText;
+      var characterDict = {}
       const setPlayer = (player)=>{
         player = player
         if(player == 1){
@@ -89,16 +95,90 @@
       }
 
       const startGame = ()=>{
-
+        getMovie()
+      }
+      var movies = null;
+      const getMovie = async ()=>{
+        movies = await fetch('../csvjson.json')
+        .then((res)=>res.json())
+        .then((data)=>{
+          movies = data;
+          return movies
+        })
+        console.log(movies)
+        setMovie()
       }
 
-      const getMovie = ()=>{
-        fetch('http://localhost:3000/getmovie')
-          .then((response) => response.json())
-          .then((json) => console.log(json))
-          .catch((error) => console.error('Error fetching JSON:', error));
-
+      const setMovie = ()=>{
+        let random = Math.round(Math.random()*1000)
+        // let random = 2
+        console.log(random)
+        currentMovie = movies[random].Movie
+        movieText = ''
+        setWord()
       }
-    </script>
+
+      const setWord = (character = null)=>{
+        movieText = ''
+        currentMovie = currentMovie.toLowerCase()
+        console.log(currentMovie)
+        for(let i=0; i<currentMovie.length; i++){
+          if( currentMovie[i] == 'a' || currentMovie[i] == 'e' || currentMovie[i] == 'i' || currentMovie[i] == 'o' || currentMovie[i] == 'u' || currentMovie[i] == ' ' || isDigit(currentMovie[i])){
+            movieText += currentMovie[i].toLowerCase()
+          }
+          
+          else{
+            movieText += '_'
+          }
+        }
+        movieWord.innerText = movieText
+      }
+
+      const checkInput = (e)=>{
+          let character = e.toLowerCase();
+          let flag = false;
+          let tempText = ''
+          movieText = movieWord.innerText.trim()
+
+          for(let i=0; i<currentMovie.length; i++){
+            if(currentMovie[i].toLowerCase() == character){
+              tempText += currentMovie[i]
+              flag = true
+            }
+            else{
+              tempText += movieText[i]
+            }
+          }
+          console.log(tempText)
+          movieWord.innerText = tempText
+
+          if(currentMovie.toLowerCase() == tempText.toLowerCase()){
+            alert('Yay! you guessed it right, refreshing in 5s')
+            setInterval(()=>{
+              window.location.reload()
+            },5000)
+          }
+          if(!flag){
+             let bText = bollywood.innerText 
+             bollywood.innerText =  bText.substring(0,bText.length-1)
+          }
+          if(bollywood.innerHTML.trim().length == 0){
+            alert("Game Over ! You Lose ")
+            alert('The movie was '+currentMovie)
+            textArea.setAttribute('disabled','disabled')
+            document.getElementById('inpContainer').innerText = currentMovie
+            setInterval(()=>{
+              window.location.reload()
+            },5000)
+          }
+          textArea.value = ''
+        }
+
+
+        function isDigit(n) {
+            return /^[0-9]$/.test(n);
+        }
+
+        </script>
 </body>
 </html>
