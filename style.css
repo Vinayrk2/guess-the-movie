@@ -50,3 +50,11 @@ body{
     justify-content: center;
     align-items: center;
 }
+.table-row{
+    height: 35px;
+}
+.table-row>td{
+    text-align: center;
+    border-bottom: 1px solid black;
+    width:120px;
+}

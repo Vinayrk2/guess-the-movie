@@ -24,10 +24,10 @@
                   </div>
                 </div>
               </div> 
-          <!-- </div> -->
+          </div>
     
-<div id="selectionContainer" style="display:flex; justify-content: center; align-items: center; height: 100vh;"> -->
-       <div  class="container-fluid d-flex w-100" style="justify-content: center; align-items: center; height: 100vh;"> -->
+      <div id="selectionContainer" style="display:flex; justify-content: center; align-items: center; height: 100vh;">  -->
+       <div  class="container-fluid d-flex w-100" style="justify-content: center; align-items: center; height: 100vh;"> 
     
               <div class="card mx-5 mode" style="width: 18rem;" onclick="playerMode(1)" >
                   <img src="https://th.bing.com/th/id/OIP.MGEDVq_6XbGN4xVxI1BvdwHaHa?w=175&h=180&c=7&r=0&o=5&pid=1.7" height="270vh" class="card-img-top" alt="...">
@@ -43,7 +43,7 @@
                   </div>
                 </div>
               </div> 
-              </div>
+              </div> 
 
 
       <div id="GameArea">
@@ -52,7 +52,11 @@
         <div id="inpContainer">
           <input type="text" name="" id="textInp"  maxlength="1" onchange="checkInput(this.value)">  
         </div>
-        <div id="playerTable">
+        <div id="scoreArea">
+          <h3> Score Board </h3>
+          <table id="playerTable" border="2">
+            
+          </table>
 
         </div>
       </div>
@@ -69,9 +73,9 @@
       var movies;
       var movieText;
       var characterDict = {}
-      var counter = 0
-    
+      var counter = -1
       const playerTable = document.getElementById('playerTable')
+      
 
       const setPlayer = (player)=>{
         
@@ -91,7 +95,7 @@
           alert("You cannot select By Player in single player mode")
         })
         document.querySelectorAll(".mode")[1].style.backgroundColor = 'grey'
-        
+        document.getElementById('scoreArea').style.display = 'none'
       }
 
       const multiPlayer = ()=>{
@@ -127,15 +131,15 @@
 
 
         document.getElementById("selectionContainer").style.display = "none"
+
         setWord()
-        showScore()
       }
 
       const showScore = ()=>{
         playerTable.innerHTML = ''
-        if(players){
-          players.map((val)=>{
-            let content = `<tr> <td> ${val.name} </td> <td> ${val.score} </td> </tr>`
+        if(players.length != 0){
+          players.forEach((val)=>{
+            let content = `<tr class='table-row'> <td> ${val.name} </td> <td> ${val.score} </td> </tr>`
             playerTable.innerHTML += content
           })
         }
@@ -196,6 +200,7 @@
             setWord()
           }
         }
+        showScore()
       }
 
       const checkInput = (e)=>{
@@ -225,7 +230,7 @@
               if(players.length == 0){
                 alert('Yay! you guessed it right, refreshing in 5s')
                 setInterval(()=>{
-                  window.location.reload()
+                  window.location.assign(window.location.href)
                 },3000)
               }
               else{
@@ -241,7 +246,7 @@
               document.getElementById('inpContainer').innerText = currentMovie
               textArea.setAttribute('disabled','disabled')
               setInterval(()=>{
-                window.location.reload()
+                window.location.assign(window.location.href)
               },3000)
             }else{
               setWord()
@@ -255,7 +260,7 @@
             return /^[0-9]$/.test(n);
         }
         
-
+        showScore()
         </script>
 </body>
 </html>
