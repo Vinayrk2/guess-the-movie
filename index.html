@@ -8,26 +8,26 @@
     <title>Home Page</title>
 </head>
 <body>  
-  <div id="playerContainer">
-    <div class="container-fluid w-100 p-2" style="display:flex; justify-content: center; align-items: center; height: 100vh;">
-          <div class="card mx-5" style="width: 18rem;" onclick="setPlayer(1)" >
-              <img src="https://th.bing.com/th/id/OIP.MGEDVq_6XbGN4xVxI1BvdwHaHa?w=175&h=180&c=7&r=0&o=5&pid=1.7" height="270vh" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text"><h1><center> Single Player </center></h1></p>
-              </div>
-            </div>
-  
-            <div class="card mx-5" style="width: 18rem;" onclick="setPlayer(2)">
-              <img src="https://static.vecteezy.com/system/resources/previews/002/094/498/non_2x/soccer-football-player-black-icons-illustrations-vector.jpg" height="270vh" class="card-img-top" alt="...">
-              <div class="card-body">
-                <p class="card-text"><h1><center> Multi Player </center></h1></p>
-              </div>
-            </div>
-          </div>
-      </div>
+      <!-- <div > -->
+        <div id="playerContainer" class="container-fluid w-100 p-2 row mt-1" style="display:flex; justify-content: center; align-items: center; height: 100vh;">
+              <div class="card mx-5 col col-6" style="width: 18rem;" onclick="setPlayer(1)" >
+                  <img src="https://th.bing.com/th/id/OIP.MGEDVq_6XbGN4xVxI1BvdwHaHa?w=175&h=180&c=7&r=0&o=5&pid=1.7" height="270vh" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text"><h1><center> Single Player </center></h1></p>
+                  </div>
+                </div>
+      
+                <div class="card mx-5 col col-6" style="width: 18rem;" onclick="setPlayer(2)">
+                  <img src="https://static.vecteezy.com/system/resources/previews/002/094/498/non_2x/soccer-football-player-black-icons-illustrations-vector.jpg" height="270vh" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text"><h1><center> Multi Player </center></h1></p>
+                  </div>
+                </div>
+              </div> 
+          <!-- </div> -->
     
-      <div id="selectionContainer" style="display:flex; justify-content: center; align-items: center; height: 100vh;">
-        <div class="container-fluid d-flex w-100" style="justify-content: center; align-items: center; height: 100vh;">
+<div id="selectionContainer" style="display:flex; justify-content: center; align-items: center; height: 100vh;"> -->
+       <div  class="container-fluid d-flex w-100" style="justify-content: center; align-items: center; height: 100vh;"> -->
     
               <div class="card mx-5 mode" style="width: 18rem;" onclick="playerMode(1)" >
                   <img src="https://th.bing.com/th/id/OIP.MGEDVq_6XbGN4xVxI1BvdwHaHa?w=175&h=180&c=7&r=0&o=5&pid=1.7" height="270vh" class="card-img-top" alt="...">
@@ -42,17 +42,21 @@
                     <p class="card-text"><h1><center> By Players </center></h1></p>
                   </div>
                 </div>
+              </div> 
               </div>
-          </div>
 
-          <div id="GameArea">
-            <div class="bollywood">BollyWood</div>
-            <div id="movieWord"></div>
-            <div id="inpContainer">
-              <input type="text" name="" id="textInp"  maxlength="1" onchange="checkInput(this.value)">  
-            </div>
-          </div>
-    
+
+      <div id="GameArea">
+        <div class="bollywood my-4">BollyWood</div>
+        <div id="movieWord"></div>
+        <div id="inpContainer">
+          <input type="text" name="" id="textInp"  maxlength="1" onchange="checkInput(this.value)">  
+        </div>
+        <div id="playerTable">
+
+        </div>
+      </div>
+     
     <script>
       const gamearea = document.getElementById('GameArea')
       const bollywood = document.getElementsByClassName("bollywood")[0]
@@ -60,15 +64,22 @@
       const textArea = document.getElementById('textInp')
       var currentMovie = ''
       var tempMovie = ''
-      let player = 0
+      var players = []
       let mode = 1
       var movies;
       var movieText;
       var characterDict = {}
+      var counter = 0
+    
+      const playerTable = document.getElementById('playerTable')
+
       const setPlayer = (player)=>{
-        player = player
+        
         if(player == 1){
           singlePlayer()
+        }
+        else{
+          multiPlayer()
         }
         document.getElementById('playerContainer').style.display = "none"
         
@@ -83,23 +94,55 @@
         
       }
 
-      const playerMode = (mode)=>{
-        if(mode == 1){
-          mode = 1
+      const multiPlayer = ()=>{
+        let i = parseInt(prompt("Enter The Number of Players"))
+
+        try{
+          if(i){
+            
+            if( i > 10 || i <= 1){
+              alert('input is not allowed.')
+              window.location.assign(window.location.href)
+            }
+            else{
+              for(var j=0; j<parseInt(i); j++){
+                var inp = prompt("Enter The Name : ")
+                players.push({'name':inp, 'score':0})
+              }
+            }
+          }
         }
-        else if(mode == 2){
-          mode = 1
+        catch(e){
+          alert(e)
         }
-        document.getElementById("selectionContainer").style.display = "none"
-        startGame(true)
       }
 
-      const startGame = ()=>{
-        getMovie()
+      const playerMode = (imode)=>{
+        if(imode == 1){
+          mode = 1
+        }
+        else if(imode == 2){
+          mode = 2
+        }
+
+
+        document.getElementById("selectionContainer").style.display = "none"
+        setWord()
+        showScore()
+      }
+
+      const showScore = ()=>{
+        playerTable.innerHTML = ''
+        if(players){
+          players.map((val)=>{
+            let content = `<tr> <td> ${val.name} </td> <td> ${val.score} </td> </tr>`
+            playerTable.innerHTML += content
+          })
+        }
       }
       var movies = null;
       const getMovie = async ()=>{
-        movies = await fetch('../csvjson.json')
+        movies = await fetch('csvjson.json')
         .then((res)=>res.json())
         .then((data)=>{
           movies = data;
@@ -115,23 +158,44 @@
         console.log(random)
         currentMovie = movies[random].Movie
         movieText = ''
-        setWord()
+        // setWord()
       }
 
-      const setWord = (character = null)=>{
-        movieText = ''
-        currentMovie = currentMovie.toLowerCase()
-        console.log(currentMovie)
-        for(let i=0; i<currentMovie.length; i++){
-          if( currentMovie[i] == 'a' || currentMovie[i] == 'e' || currentMovie[i] == 'i' || currentMovie[i] == 'o' || currentMovie[i] == 'u' || currentMovie[i] == ' ' || isDigit(currentMovie[i])){
-            movieText += currentMovie[i].toLowerCase()
+      const setWord = async (character = null)=>{
+        // currentMovie = ''
+        bollywood.innerText = 'BollyWood'
+        if(players){
+          counter++;
+          counter = counter % players.length;
+          currentplayer = players[counter]
+        }
+        if(mode == 2){
+          currentMovie = prompt("Enter Movie Name")
+        }else if(mode == 1){
+          await getMovie()
+        }
+        if(currentMovie != ''){
+
+          movieText = ''
+          currentMovie = currentMovie.toLowerCase()
+          console.log(currentMovie)
+          for(let i=0; i<currentMovie.length; i++){
+            if( currentMovie[i] == 'a' || currentMovie[i] == 'e' || currentMovie[i] == 'i' || currentMovie[i] == 'o' || currentMovie[i] == 'u' || currentMovie[i] == ' ' || isDigit(currentMovie[i])){
+              movieText += currentMovie[i].toLowerCase()
+            }
+            
+            else{
+              movieText += '_'
+            }
           }
-          
-          else{
-            movieText += '_'
+          movieWord.innerText = movieText
+        }else{
+          if(window.confirm("Are You Sure Want to End Game?")){
+            window.location.assign(window.location.href)
+          }else{
+            setWord()
           }
         }
-        movieWord.innerText = movieText
       }
 
       const checkInput = (e)=>{
@@ -151,25 +215,37 @@
           }
           console.log(tempText)
           movieWord.innerText = tempText
-
-          if(currentMovie.toLowerCase() == tempText.toLowerCase()){
-            alert('Yay! you guessed it right, refreshing in 5s')
-            setInterval(()=>{
-              window.location.reload()
-            },5000)
-          }
           if(!flag){
              let bText = bollywood.innerText 
              bollywood.innerText =  bText.substring(0,bText.length-1)
           }
-          if(bollywood.innerHTML.trim().length == 0){
+          // For Single Player Game
+
+            if(currentMovie.toLowerCase() == tempText.toLowerCase()){
+              if(players.length == 0){
+                alert('Yay! you guessed it right, refreshing in 5s')
+                setInterval(()=>{
+                  window.location.reload()
+                },3000)
+              }
+              else{
+                alert(`${currentplayer.name} - got the movie`)
+                currentplayer.score += 1
+                setWord()
+              }
+            }
+          if(bollywood.innerText.trim().length == 0){
             alert("Game Over ! You Lose ")
-            alert('The movie was '+currentMovie)
-            textArea.setAttribute('disabled','disabled')
-            document.getElementById('inpContainer').innerText = currentMovie
-            setInterval(()=>{
-              window.location.reload()
-            },5000)
+            alert('The movie was '+ currentMovie)
+            if(players.length == 0){
+              document.getElementById('inpContainer').innerText = currentMovie
+              textArea.setAttribute('disabled','disabled')
+              setInterval(()=>{
+                window.location.reload()
+              },3000)
+            }else{
+              setWord()
+            }
           }
           textArea.value = ''
         }
@@ -178,6 +254,7 @@
         function isDigit(n) {
             return /^[0-9]$/.test(n);
         }
+        
 
         </script>
 </body>

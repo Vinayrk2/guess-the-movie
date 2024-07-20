@@ -44,3 +44,9 @@ body{
     margin-top: 0px;
     height: 100vh;
 }
+#gameArea{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
