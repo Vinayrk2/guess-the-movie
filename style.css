@@ -2,23 +2,31 @@
     margin:0px;
     padding: 0px;
     box-sizing: border-box;
+    font-family:fantasy;
 }
 body{
     height: 100vh;
     width: 100vw;
-    background-color: rgb(71, 199, 124);
+    /* background-color: rgb(71, 199, 124); */
+    background-image: url('background1.jpg');
+    background-color: rgba(0, 0, 0, 0.527);
+    background-blend-mode:color-dodge;
+    background-size:cover;
     overflow: hidden;
 }
 .bollywood{
     text-align: center;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 10vh;
-    color:black;
+    /* color:rgba(233, 38, 38, 0.856); */
+    color:green;
 }
 #textInp{
     background-color: transparent;
     border: none;
-    border-bottom: 2px solid black;
+    /* border-bottom: 2px solid red; */
+    border-bottom: 2px solid green;
+    color:rgb(247, 246, 246);
     font-size: 8vh;
     width: 18vh;
     text-align: center;
@@ -27,10 +35,11 @@ body{
     outline: none;
 }
 #inpContainer{
-    margin-top: 15vh;
+    height: 10vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    color:green;
+    font-size: xx-large;
 }
 #movieWord{
     text-align: center;
@@ -39,12 +48,14 @@ body{
     font-size: 6vh;
     letter-spacing: 2vh;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color:whitesmoke;
+    text-transform: capitalize;
 }
 #playerContainer{
     margin-top: 0px;
     height: 100vh;
 }
-#gameArea{
+#gameArea, #guessedWord{
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -57,4 +68,19 @@ body{
     text-align: center;
     border-bottom: 1px solid black;
     width:120px;
+}
+.card{
+    color:rgb(100, 168, 100)
+}
+#scoreArea{
+    color:white;
+}
+#scoreArea>table{
+    background-color:rgba(0, 128, 0, 0.226);
+    border:none;
+}
+tr{
+    letter-spacing: 1px;
+    font-size: 90%;
+    border-bottom: 4px solid black;
 }
