@@ -84,3 +84,14 @@ tr{
     font-size: 90%;
     border-bottom: 4px solid black;
 }
+.active{
+    background-color: white;
+    color:green;
+}
+#guessed{
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+.guess-container{
+    font-size: larger;
+}

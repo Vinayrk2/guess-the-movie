@@ -59,7 +59,10 @@
           <table id="playerTable" border="2">
             
           </table>
-
+          
+        </div>
+        <div class="container text-light guess-container">
+          Guessed Letters : <span id="guessed" class="text-danger"></span>
         </div>
       </div>
     </div>
@@ -155,14 +158,14 @@
           movies = data;
           return movies
         })
-        console.log(movies)
+        // console.log(movies)
         setMovie()
       }
 
       const setMovie = ()=>{
         let random = Math.round(Math.random()*1000)
         // let random = 2
-        console.log(random)
+        // console.log(random)
         currentMovie = movies[random].Movie
         movieText = ''
         // setWord()
@@ -175,6 +178,8 @@
           counter += inc;
           counter = counter % players.length;
           currentplayer = players[counter]
+          showScore()
+          document.querySelectorAll("#playerTable tr")[counter].classList.add('active')
         }
         if(mode == 2){
           currentMovie = prompt("Enter Movie Name")
@@ -190,7 +195,7 @@
 
           movieText = ''
           currentMovie = currentMovie.toLowerCase()
-          console.log(currentMovie)
+          // console.log(currentMovie)
           for(let i=0; i<currentMovie.length; i++){
             if( (/[\W\daeiou]/).test(currentMovie[i])){
               movieText += currentMovie[i].toLowerCase()
@@ -213,7 +218,7 @@
           window.alert("Got no missing consonent, try again")
           return setWord(0)
         }
-        showScore()
+        
         
       }
 
@@ -232,12 +237,13 @@
               tempText += movieText[i]
             }
           }
-          console.log(tempText)
+          // console.log(tempText)
           movieWord.innerText = tempText
           if(!flag){
              let bText = bollywood.innerText 
              bollywood.innerText =  bText.substring(0,bText.length-1)
              guessed += character
+             document.getElementById('guessed').innerText = guessed
           }
           // For Single Player Game
 
